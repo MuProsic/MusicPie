@@ -1,0 +1,10 @@
+-- SELECTS
+
+
+-- INSERTS
+
+
+-- UPDATE
+
+
+-- DELETE
