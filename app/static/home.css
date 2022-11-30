@@ -1,0 +1,40 @@
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.greeting-container{
+    width: 26.5rem;
+    height: 32.5rem;
+    background-color: #07a507;
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.greeting-content{
+    width: 85%;
+    height: 85%;
+}
+
+.greeting-title{
+    width: 100%;
+    margin: 0;
+    text-align: center;
+}
+
+.greeting-message-box{
+    background-color: rgb(46, 66, 248);
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    text-align: center;
+}

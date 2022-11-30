@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<head>
-    <title>MusicPie</title>
-    <script type="text/javascript" src="https://unpkg.com/webcam-easy@1.0.5/dist/webcam-easy.min.js"></script>
-    <link rel='stylesheet' href="MusicPie.css">
-</head>
+{% extends "base.html" %}
+{% block title %}Get Recommendations{% endblock title %}
 
+{% block content %}
 <body id="template">
-    <div id="header">
-        <div id="title">
-            <h1>MuProsic</h1>
-        </div>
-    </div>
+
     <div id="face_rec">
         <video autoplay="true" id="camera" width="800" height="600"></video>
         <canvas id="canvas"></canvas>
         <button id="cam_on" onclick="startCam()">Start Camera</button>
         <button id="cam_off" onclick="stopCam()">Stop Camera</button>
+        <button id="snap" onclick="takePicture()">Snap!</button>
     </div>
     
-    <script src="./MusicPie.js"></script>
+    <script src="../static/MusicPie.js"></script>
+    
 </body>
+{% endblock content %}
