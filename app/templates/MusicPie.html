@@ -1,16 +1,33 @@
 {% extends "base.html" %}
 {% block title %}Get Recommendations{% endblock title %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'musicRecs.css') }}">
+{% endblock %}
+
 {% block content %}
 <body id="template">
 
     <div id="face_rec">
         <video autoplay="true" id="camera" width="800" height="600"></video>
-        <canvas id="canvas"></canvas>
-        <button id="cam_on" onclick="startCam()">Start Camera</button>
-        <button id="cam_off" onclick="stopCam()">Stop Camera</button>
-        <button id="snap" onclick="takePicture()">Snap!</button>
+        <canvas id="canvas" src=""></canvas>
+        <div id="controls">
+            <button class="button" id="cam_on" onclick="startCam()">Start Camera</button>
+            <button class="button" id="cam_off" onclick="stopCam()">Stop Camera</button>
+            <button class="button" id="snap" onclick="takePicture()">Snap!</button>
+            <p id="pred"></p>
+        </div>
     </div>
+    
+    <div id="query">
+        <p id="querySpecPrompt">Would you like to add some more specifications to your search query?</p>
+        <button class="button" id="addToFacialQuery" onclick="queryYes()">Yes</button>
+        <button class="button" id="facialExpQuery" onclick="queryNo()">No</button>
+    </div>
+
+    <table id="result"></table>
+
     
     <script src="../static/MusicPie.js"></script>
     

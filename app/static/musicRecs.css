@@ -1,0 +1,36 @@
+#query{
+    display: none;
+}
+
+
+#face_rec{
+    
+}
+
+#controls{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#canvas{
+    background-color: white;
+    display: none;
+}
+
+#camera{
+    background-color: blue;
+    display: none;
+}
+
+#cam_on{
+    display: block;
+}
+
+#cam_off{
+    display: none;
+}
+
+#snap{
+    display: none;
+}

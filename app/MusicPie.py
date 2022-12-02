@@ -1,14 +1,17 @@
 import cv2
 import base64
 import numpy as np
+import sqlite3
+from sqlite3 import Error
 import tensorflow as tf
+import json
 from tensorflow.keras.models import load_model
 from flask import render_template, redirect, Flask, request, url_for
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
-CATEGORIES = ['angry', 'disgust', 'fear', 'happy', 'neutral', 'sad', 'surprise']
+CATEGORIES = ['Angry', 'Disgust', 'Fear', 'Happy', 'Neutral', 'Sad', 'Surprise']
 
 with app.app_context():
     @app.route('/', methods=['GET', 'POST'])
@@ -50,14 +53,29 @@ with app.app_context():
             model = load_model('../cnn_model/facial_emotion_recognition.h5')
             pred = model.predict(new_img)
             print("THE PREDICTION IS.........",CATEGORIES[np.argmax(pred)])
-            return CATEGORIES[np.argmax(pred)]
+            cv2.imwrite('face.jpg', faces_arr[0])
+
+            # encoded_face = base64.b64encode(np.ascontiguousarray(faces_arr[0])).decode('utf-8')
+            encoded_face = base64.b64encode(open('./face.jpg', 'rb').read()).decode('utf-8')
+            response_data = {}
+            response_data['prediction'] = CATEGORIES[np.argmax(pred)]
+            response_data['image'] = encoded_face
             
-                # cv2.imwrite('face.jpg', faces)
             # np.save('image', img_np)
             
             # with open('image.png', 'wb') as f:
                 # f.write(img_str)
+
+            # print(response_data)
+            return json.dumps(response_data)
             
+
+        #FIX ME: Figure out how to request a query           
+        if request.method == 'GET' and request.data:
+            print("THIS IS TRUE: ", request.data)
+            return 200
+
+
 
         return render_template('MusicPie.html')
 
