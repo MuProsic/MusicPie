@@ -20,7 +20,7 @@ with app.app_context():
 
     @app.route('/getRecommendations', methods=['GET', 'POST'])
     def getRecs():
-        if request.method == 'POST':
+        if request.method == 'POST' and not request.is_json:
             data = request.get_data()
             
             # Decoding image
@@ -71,9 +71,70 @@ with app.app_context():
             
 
         #FIX ME: Figure out how to request a query           
-        if request.method == 'GET' and request.data:
-            print("THIS IS TRUE: ", request.data)
-            return 200
+        elif request.method == 'POST' and request.is_json:
+            data = request.get_json()
+            conn = None
+            c = None
+            db = r'../tpch.sqlite'
+            try:
+                conn = sqlite3.connect(db)
+                c = conn.cursor()
+            except Error as e:
+                print(e)
+            
+            if not data['with_artist_name'] and not data['with_energy']:
+                # execute query with only facial expression recognition
+                print("execute query with only facial expression recognition")
+                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                        FROM Songs, Genre
+                        WHERE s_genre = g_name AND
+                        g_mood = ?;"""
+                c.execute(sql, [data['mood']])
+                rows = c.fetchall()
+                # result = {}
+
+                return rows
+                
+                
+            elif not data['with_artist_name'] and data['with_energy']:
+                # execute query with mood and energy
+                print("execute query with mood and energy")
+                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                        FROM Songs, Genre
+                        WHERE s_genre = g_name 
+                            AND g_mood = ?
+                            AND s_energy >= ? ;"""
+                c.execute(sql, [data['mood'], data['energy']])
+                rows = c.fetchall()
+                return rows
+                
+            elif  data['with_artist_name'] and not data['with_energy']:
+                # execute query with mood and artist
+                print("execute query with mood and artist")
+                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                        FROM Songs, Genre
+                        WHERE s_genre = g_name 
+                            AND g_mood = ?
+                            AND s_artist like "%?%" ;"""
+                c.execute(sql, [data['mood'], data['artist']])
+                rows = c.fetchall()
+                return rows
+
+            else:
+                # execute query with mood, energy and artist name
+                print("execute query with mood, energy and artist name")
+                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                        FROM Songs, Genre
+                        WHERE s_genre = g_name 
+                            AND g_mood = ?
+                            AND s_energy >= ?
+                            AND s_artist like "%?%" ;"""
+                c.execute(sql, [data['mood'], data['energy'], data['artist']])
+                rows = c.fetchall()
+                return rows
+            # print(data)
+
+            return json.dumps({})
 
 
 

@@ -1,3 +1,39 @@
+#query_addons{
+    display: none;
+}
+
+#warning_message{
+    display: none;
+    color: red;
+}
+
+
+#result {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #result td, #result th {
+    border: 2px solid white;
+    padding: 8px;
+    margin: auto;
+    
+  }
+  
+  #result tr:nth-child(even){background-color: rgb(32, 131, 10);}
+  
+  /* #games_played tr:hover {background-color: #ddd;} */
+  
+  #result th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0439aa;
+    color: white;
+    font: bold;
+  }
+
 #query{
     display: none;
 }
@@ -6,6 +42,8 @@
 #face_rec{
     
 }
+
+
 
 #controls{
     position: relative;

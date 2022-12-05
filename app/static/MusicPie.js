@@ -11,7 +11,10 @@ function startCam(){
     let stopCamButton = document.getElementById('cam_off');
     let snapButton = document.getElementById('snap');
     let cam = document.getElementById('camera');
-    let canvas = document.getElementById('canvas')
+    let canvas = document.getElementById('canvas');
+    
+
+    
     startCamButton.style.display = 'none';
     stopCamButton.style.display = 'block';
     snapButton.style.display = 'block';
@@ -19,6 +22,8 @@ function startCam(){
     cam.style.display = 'block';
     document.getElementById('pred').innerHTML = ''
     document.getElementById('query').style.display = 'none'
+    document.getElementById('query_addons').style.display = 'none'
+
 }
 
 function stopCam(){
@@ -39,12 +44,17 @@ function takePicture(){
     canvas.style.display = 'block'
     var photo = camera.snap().split(',')[1]
     stopCam()
+    if (document.getElementById('result').rows.length !== 0) {
+        console.log("TRUEEEE")
+        console.log(document.getElementById('result').length)
+        // document.getElementById('result').remove()
+    }
     document.getElementById('cam_on').innerHTML = 'Retake'
     // console.log(photo)
 
     request = new XMLHttpRequest()
     request.open('POST', url+'/getRecommendations', true)
-    request.setRequestHeader('Content-Type', 'application/json');
+    // request.setRequestHeader('Content-Type', 'application/json');
     request.responseType = 'json';
     request.onload = function(){
         let status = request.status;
@@ -70,7 +80,7 @@ function takePicture(){
             document.getElementById('pred').innerHTML = 'Predicted Facial Expression: ' + data['prediction']
             new_img.src = 'data:image/jpg;base64,' + data['image']
             // document.getElementById('canvas').src = imgURL;
-            console.log(new_img.src)
+            // console.log(new_img.src)
             // document.getElementById('canvas').src = new_img.src;
 
             document.getElementById('query').style.display = 'block'
@@ -81,50 +91,127 @@ function takePicture(){
             cancelIdleCallback(status, request.response);
         }
     };
+    
     request.send(photo)
 
 
 }
 
 
+function displayQueryAddons(){
+    document.getElementById('query_addons').style.display = 'block'
+}
+
+
 function queryYes(){
-    let request = new XMLHttpRequest()
-    request.open('GET', url)
-    request.responseType = 'json';
-    request.onload = function(){
+    
+    queryData = {"mood": mood,
+                "with_artist_name": false,
+                "with_energy": false,
+                "energy": 0,
+                "artist": ""};
 
+    let artist = document.getElementById('add_artist_name').innerHTML
+    let energy = document.getElementById('add_energy').innerHTML
+
+    if(artist === null && energy === null){
+        console.log("TRUEEEEEE")
+        document.getElementById('warning_message').style.display = 'block'
     }
+    else{
+        if(artist !== null){
+            queryData['with_artist_name'] = true
+        }
+        if(energy !== null){
+            queryData['with_energy'] = true
+        }
 
-    request.send()
+        let request = new XMLHttpRequest()
+        request.open('POST', url+'/getRecommendations', true)
+        request.responseType = 'json';
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.onload = function(){
+            if(request.status >= 200 && request.status < 400){
+                let table = document.getElementById('result');
+                table.innerHTML = '';
+                data = request.response
+                console.log(data[0][0])
+                
+                // inserting table headers
+                let header = table.createTHead();
+                let header_row = header.insertRow();
+                let artist = header_row.insertCell(0);
+                let song = header_row.insertCell(1);
+                let emotion = header_row.insertCell(2);
+                let energy = header_row.insertCell(3);
+                
+                artist.innerHTML = 'Artist';
+                song.innerHTML = 'Song';
+                emotion.innerHTML = 'Genre Mood';
+                energy.innerHTML = 'Energy (0-1)';
+    
+    
+                for(let i = 0; i < data.length; i++){
+                    let row = table.insertRow()
+        
+                    for(let j = 0; j < data[i].length; j++){
+                        let col = row.insertCell(j);
+                        col.innerHTML = data[i][j]
+                    }
+                }
+            }
+        }
+
+        request.send()
+    }
+    
     
 }
 
 
 function queryNo(){
+    // reqData = {"photo": photo, "getRecs": false, "predict": true}
     document.getElementById('query').style.display = 'none'
     
     let request = new XMLHttpRequest();
-    request.open('GET', url);
+    request.open('POST', url+'/getRecommendations', true);
     request.responseType = 'json';
     request.setRequestHeader('Content-Type', 'application/json');
     request.onload = function(){
         if(request.status >= 200 && request.status < 400){
             let table = document.getElementById('result');
             table.innerHTML = '';
+            data = request.response
+            console.log(data[0][0])
+            
+            // inserting table headers
+            let header = table.createTHead();
+            let header_row = header.insertRow();
+            let artist = header_row.insertCell(0);
+            let song = header_row.insertCell(1);
+            let emotion = header_row.insertCell(2);
+            let energy = header_row.insertCell(3);
+            
+            artist.innerHTML = 'Artist';
+            song.innerHTML = 'Song';
+            emotion.innerHTML = 'Genre Mood';
+            energy.innerHTML = 'Energy (0-1)';
 
-            for(i in Object.keys(request.response)){
-                let row = table.insertRow();
-                let artist = row.insertCell(0);
-                let song = row.insertCell(1);
-                let mood = row.insertCell(2);
 
-                name.innerHTML = Object.keys(request.response)[i];
-                grade.innerHTML = request.response[Object.keys(request.response)[i]];
+            for(let i = 0; i < data.length; i++){
+                let row = table.insertRow()
+    
+                for(let j = 0; j < data[i].length; j++){
+                    let col = row.insertCell(j);
+                    col.innerHTML = data[i][j]
+                }
             }
         }
     }
     
-    queryData = {"mood": mood};
+    queryData = {"mood": mood,
+                "with_artist_name": false,
+                "with_energy": false};
     request.send(JSON.stringify(queryData));
 
     
