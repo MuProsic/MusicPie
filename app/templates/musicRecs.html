@@ -1,14 +1,56 @@
-{% extends base.html %}
-
+{% extends "base.html" %}
 {% block title %}Get Recommendations{% endblock title %}
-
 
 {% block styles %}
     {{ super() }}
-    <link rel="stylesheet" href="{{ url_for('static', filename = 'getRecs.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'musicRecs.css') }}">
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"> -->
 {% endblock %}
 
-
 {% block content %}
+<body id="template">
+    <div id="welcome_message">
+        <h1 id="title">Music Recommendations</h1>
+        <p>Ready to get started with music recommendations?</p>
+        <p>Here, MusicPie will make music recommendations by predicting your facial expression!!</p>
+        <p>To begin, click on the "Start Camera" button!!</p>
+    </div>
+    <div id="face_rec">
+        <video autoplay="true" id="camera" width="800" height="600"></video>
+        <canvas id="canvas" src=""></canvas>
+        <div id="controls">
+            <button class="button" id="cam_on" onclick="startCam()">Start Camera</button>
+            <button class="button" id="cam_off" onclick="stopCam()">Stop Camera</button>
+            <button class="button" id="snap" onclick="takePicture()">Snap!</button>
+            <p id="pred"></p>
+        </div>
+    </div>
     
+    <div id="query">
+        <p id="querySpecPrompt">Would you like to add some more specifications to your search query?</p>
+        <button class="button" id="addToFacialQuery" onclick="displayQueryAddons()">Yes</button>
+        <button class="button" id="facialExpQuery" onclick="queryNo()">No</button>
+
+        <div id="query_addons">
+            <p>What artist are you looking for? </p>
+            <!-- <input id="add_artist_name" type="text" /> -->
+            <select id="add_artist_name">
+                <option>Choose an Option....</option>
+                
+            </select>
+
+            <p>What energy range are you looking for? (Please enter a number between 0 and 1)</p>
+            <input id="add_energy" type="text" />
+            <button class = "button" id="submit" onclick="queryYes()">Submit</button>
+            <p id="warning_message">WARNING: At least one field is REQUIRED!!!</p>
+        </div>
+    </div>
+
+    <!-- <table id="header"></table> -->
+    <table id="result"></table>
+
+    
+    <script src="../static/musicRecs.js"></script>
+    
+</body>
 {% endblock content %}

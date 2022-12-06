@@ -12,9 +12,10 @@ function startCam(){
     let snapButton = document.getElementById('snap');
     let cam = document.getElementById('camera');
     let canvas = document.getElementById('canvas');
+    let dropdownMenu = document.getElementById('add_artist_name')
     
 
-    
+    dropdownMenu.options.length = 0
     startCamButton.style.display = 'none';
     stopCamButton.style.display = 'block';
     snapButton.style.display = 'block';
@@ -285,44 +286,17 @@ function queryNo(){
 }
 
 
-function init(){
-    var greetButton = document.getElementById("get-started-button");
-    var message = document.getElementById("message");
-    message.innerHTML = "What do you wish to do?";
-    greetButton.style.display='none';
-
-    var getRecs = document.getElementById("get-recs");
-    var rateArtists = document.getElementById("rate-artists");
-    // var rateSongs = document.getElementById("rate-songs");
-    getRecs.style.display = 'block';
-    rateArtists.style.display = 'block';
-    // rateSongs.style.display = 'block';
-
-}
 
 
 
-function recs(){
-    var request = new XMLHttpRequest();
-    let redirect = url+'/getRecommendations'
-    request.open("GET", redirect, false);
-    
-    // request.setRequestHeader("Content-Type", "application/json");
-    request.send();
-    // console.log(request.status)
-    if(request.status >= 200 && request.status < 400){
-        console.log(request.status)
-        window.location.href = '/getRecommendations'
-    }
-    
-    
-}
 
 
-function getMusic(){
+
+
+// function getMusic(){
     // this function will get the prediction from the classifier as a string
     // the function will send the string to the server,
     // and the server will add the string into the sql query
     
-}
+// }
 

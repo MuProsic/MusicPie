@@ -1,3 +1,25 @@
+.button {
+    border: none;
+    background-color: var(--header-color);
+    color: var(--primary-text-color);
+    width: 30%;
+    height: 25%;
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    bottom: 0;
+    font-size: x-large;
+  }
+
+  .button:hover {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+  }
+
+#title{
+    text-align: center;
+}
+
 #query_addons{
     display: none;
 }

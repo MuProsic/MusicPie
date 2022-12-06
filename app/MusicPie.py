@@ -156,15 +156,16 @@ with app.app_context():
 
 
 
-        return render_template('MusicPie.html')
+        return render_template('musicRecs.html')
 
     @app.route('/rateArtists', methods=['GET', 'POST'])
     def rateArtists():
-        return "<h1>Rate Artists</h1>"
+        
+        return render_template('rateArtists.html')
 
-    @app.route('/rateSongs', methods=['GET', 'POST'])
-    def rateSongs():
-        return "<h1>Rate Songs</h1>"
+    @app.route('/viewArtists', methods=['GET', 'POST'])
+    def viewArtists():
+        return render_template('viewArtists.html')
 
 
     if __name__ == "__main__":
