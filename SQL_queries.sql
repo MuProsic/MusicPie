@@ -89,12 +89,15 @@ FROM Songs, Genre
 WHERE s_genre = g_name AND
    g_mood = "Happy";
 
+
+-- Show distinct artists based on mood prediction
 select distinct s_artist
 from(
     SELECT s_artist, s_name, g_mood, s_energy
     FROM Songs, Genre
     WHERE s_genre = g_name AND
-        g_mood = "Happy";
+        g_mood = "Happy"
+        AND s_artist = "Bad Bunny";
 );
 
 --    How many artists were reviewed poorly by critics

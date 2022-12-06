@@ -73,6 +73,7 @@ with app.app_context():
         #FIX ME: Figure out how to request a query           
         elif request.method == 'POST' and request.is_json:
             data = request.get_json()
+            print(data)
             conn = None
             c = None
             db = r'../tpch.sqlite'
@@ -82,13 +83,13 @@ with app.app_context():
             except Error as e:
                 print(e)
             
-            if not data['with_artist_name'] and not data['with_energy']:
+            if not data['with_artist_name'] and not data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with only facial expression recognition
                 print("execute query with only facial expression recognition")
                 sql = """SELECT s_artist, s_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name AND
-                        g_mood = ?;"""
+                        g_mood = ? """
                 c.execute(sql, [data['mood']])
                 rows = c.fetchall()
                 # result = {}
@@ -96,31 +97,33 @@ with app.app_context():
                 return rows
                 
                 
-            elif not data['with_artist_name'] and data['with_energy']:
+            elif not data['with_artist_name'] and data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with mood and energy
                 print("execute query with mood and energy")
                 sql = """SELECT s_artist, s_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name 
                             AND g_mood = ?
-                            AND s_energy >= ? ;"""
+                            AND s_energy >= ? """
                 c.execute(sql, [data['mood'], data['energy']])
                 rows = c.fetchall()
                 return rows
                 
-            elif  data['with_artist_name'] and not data['with_energy']:
+            elif  data['with_artist_name'] and not data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with mood and artist
                 print("execute query with mood and artist")
                 sql = """SELECT s_artist, s_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name 
                             AND g_mood = ?
-                            AND s_artist like "%?%" ;"""
+                            AND s_artist = ? """
                 c.execute(sql, [data['mood'], data['artist']])
                 rows = c.fetchall()
+                # print(data['artist'])
+                # print(rows)
                 return rows
 
-            else:
+            elif data['with_artist_name'] and data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with mood, energy and artist name
                 print("execute query with mood, energy and artist name")
                 sql = """SELECT s_artist, s_name, g_mood, s_energy
@@ -128,13 +131,28 @@ with app.app_context():
                         WHERE s_genre = g_name 
                             AND g_mood = ?
                             AND s_energy >= ?
-                            AND s_artist like "%?%" ;"""
+                            AND s_artist = ? """
                 c.execute(sql, [data['mood'], data['energy'], data['artist']])
                 rows = c.fetchall()
                 return rows
+            
+            elif data['get_distinct_artists']:
+                # select distinct artists based on facial expression
+                sql = """select distinct s_artist
+                        from(
+                            SELECT s_artist, s_name, g_mood, s_energy
+                            FROM Songs, Genre
+                            WHERE s_genre = g_name AND
+                            g_mood = ? 
+                        )
+                        order by s_artist asc"""
+                c.execute(sql, [data['mood']])
+                rows = c.fetchall()
+                return rows
             # print(data)
-
-            return json.dumps({})
+            else:
+                print("return nothing")
+                return json.dumps({})
 
 
 

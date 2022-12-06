@@ -100,6 +100,42 @@ function takePicture(){
 
 function displayQueryAddons(){
     document.getElementById('query_addons').style.display = 'block'
+    
+    // creating dropdown menu
+    queryData = {"mood": mood,
+    "with_artist_name": false,
+    "with_energy": false,
+    "get_distinct_artists": true,
+    "energy": 0,
+    "artist": ""};
+
+    let request = new XMLHttpRequest();
+    request.open('POST', url+'/getRecommendations', true);
+    request.responseType = 'json';
+    request.setRequestHeader('Content-Type', 'application/json');
+    request.onload = function(){
+        console.log(request.response)
+        for(let i = 0; i < request.response.length; i++){
+            let dropdownMenu = document.getElementById('add_artist_name')
+            let newOption = document.createElement('option');
+            // console.log(dropdownMenu)
+            // newOption.value = ""
+            newOption.text = request.response[i][0]  //care about this one
+            dropdownMenu.appendChild(newOption)
+        }
+    }
+    
+    request.send(JSON.stringify(queryData))
+    
+
+    
+    
+    
+    // let dropdownMenu = document.getElementById('add_artist_name')
+    // let newOption = document.createElement('option');
+    // newOption.value = "Nice"
+    // newOption.text = "It Works!!!"  //care about this one
+    // dropdownMenu.appendChild(newOption)
 }
 
 
@@ -108,26 +144,38 @@ function queryYes(){
     queryData = {"mood": mood,
                 "with_artist_name": false,
                 "with_energy": false,
+                "get_distinct_artists": false,
                 "energy": 0,
                 "artist": ""};
+            
+    
+    
 
-    let artist = document.getElementById('add_artist_name').innerHTML
-    let energy = document.getElementById('add_energy').innerHTML
-
-    if(artist === null && energy === null){
+    let artist = document.getElementById('add_artist_name').options[document.getElementById('add_artist_name').selectedIndex].text;
+    let energy = document.getElementById('add_energy').value
+    
+    console.log(energy)
+    // console.log(artist)
+    
+    console.log(artist)
+    if(artist === "" && energy === ""){
         console.log("TRUEEEEEE")
         document.getElementById('warning_message').style.display = 'block'
     }
     else{
-        if(artist !== null){
+        if(artist !== ""){
             queryData['with_artist_name'] = true
+            queryData['artist'] = artist
         }
-        if(energy !== null){
+        if(energy !== ""){
             queryData['with_energy'] = true
+            queryData['energy'] = energy
         }
 
         let request = new XMLHttpRequest()
+        // console.log('BEFORE')
         request.open('POST', url+'/getRecommendations', true)
+        // console.log('PASS')
         request.responseType = 'json';
         request.setRequestHeader('Content-Type', 'application/json');
         request.onload = function(){
@@ -135,7 +183,7 @@ function queryYes(){
                 let table = document.getElementById('result');
                 table.innerHTML = '';
                 data = request.response
-                console.log(data[0][0])
+                console.log(data)
                 
                 // inserting table headers
                 let header = table.createTHead();
@@ -149,24 +197,42 @@ function queryYes(){
                 song.innerHTML = 'Song';
                 emotion.innerHTML = 'Genre Mood';
                 energy.innerHTML = 'Energy (0-1)';
-    
+                
+                
+                // const optionText = dropdownMenu.createTextNode('Select an Artist...')
+
+                // newOption.appendChild(optionText);
+                // newOption.setAttribute('vale', 'Option Value')
     
                 for(let i = 0; i < data.length; i++){
                     let row = table.insertRow()
-        
+                    let _artist = data[i][0]
+                    
+                    if (_artist){
+                        // add artist to dropdown menu
+
+                    }
                     for(let j = 0; j < data[i].length; j++){
                         let col = row.insertCell(j);
                         col.innerHTML = data[i][j]
+                        if(j > 2){
+                            if(data[i][j] > 1){
+                                data[i][j] /= 100;
+                            }
+                        }
                     }
                 }
             }
         }
-
-        request.send()
+        console.log(artist)
+        request.send(JSON.stringify(queryData))
     }
     
     
 }
+
+
+
 
 
 function queryNo(){
@@ -210,6 +276,7 @@ function queryNo(){
     }
     
     queryData = {"mood": mood,
+                "get_distinct_artists": false,
                 "with_artist_name": false,
                 "with_energy": false};
     request.send(JSON.stringify(queryData));
@@ -232,6 +299,7 @@ function init(){
     // rateSongs.style.display = 'block';
 
 }
+
 
 
 function recs(){
