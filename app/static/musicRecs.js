@@ -13,6 +13,7 @@ function startCam(){
     let cam = document.getElementById('camera');
     let canvas = document.getElementById('canvas');
     let dropdownMenu = document.getElementById('add_artist_name')
+    document.getElementById('result').innerHTML = ''
     
 
     dropdownMenu.options.length = 0
@@ -101,7 +102,10 @@ function takePicture(){
 
 function displayQueryAddons(){
     document.getElementById('query_addons').style.display = 'block'
-    
+    document.getElementById('querySpecPrompt').style.display = 'none'
+    document.getElementById('addToFacialQuery').style.display = 'none'
+    document.getElementById('facialExpQuery').style.display = 'none'
+    document.getElementById('result').innerHTML = ''
     // creating dropdown menu
     queryData = {"mood": mood,
     "with_artist_name": false,
@@ -191,11 +195,14 @@ function queryYes(){
                 let header_row = header.insertRow();
                 let artist = header_row.insertCell(0);
                 let song = header_row.insertCell(1);
-                let emotion = header_row.insertCell(2);
-                let energy = header_row.insertCell(3);
+                let genre = header_row.insertCell(2);
+                let emotion = header_row.insertCell(3);
+                let energy = header_row.insertCell(4);
                 
+
                 artist.innerHTML = 'Artist';
                 song.innerHTML = 'Song';
+                genre.innerHTML='Genre';
                 emotion.innerHTML = 'Genre Mood';
                 energy.innerHTML = 'Energy (0-1)';
                 
@@ -207,12 +214,12 @@ function queryYes(){
     
                 for(let i = 0; i < data.length; i++){
                     let row = table.insertRow()
-                    let _artist = data[i][0]
+                    // let _artist = data[i][0]
                     
-                    if (_artist){
-                        // add artist to dropdown menu
+                    // if (_artist){
+                    //     // add artist to dropdown menu
 
-                    }
+                    // }
                     for(let j = 0; j < data[i].length; j++){
                         let col = row.insertCell(j);
                         col.innerHTML = data[i][j]
@@ -256,11 +263,16 @@ function queryNo(){
             let header_row = header.insertRow();
             let artist = header_row.insertCell(0);
             let song = header_row.insertCell(1);
-            let emotion = header_row.insertCell(2);
-            let energy = header_row.insertCell(3);
+            let genre = header_row.insertCell(2);
+            let emotion = header_row.insertCell(3);
+            let energy = header_row.insertCell(4);
+
+           
+            
             
             artist.innerHTML = 'Artist';
             song.innerHTML = 'Song';
+            genre.innerHTML='Genre';
             emotion.innerHTML = 'Genre Mood';
             energy.innerHTML = 'Energy (0-1)';
 

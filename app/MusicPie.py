@@ -86,7 +86,7 @@ with app.app_context():
             if not data['with_artist_name'] and not data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with only facial expression recognition
                 print("execute query with only facial expression recognition")
-                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                sql = """SELECT s_artist, s_name, g_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name AND
                         g_mood = ? """
@@ -100,7 +100,7 @@ with app.app_context():
             elif not data['with_artist_name'] and data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with mood and energy
                 print("execute query with mood and energy")
-                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                sql = """SELECT s_artist, s_name, g_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name 
                             AND g_mood = ?
@@ -112,7 +112,7 @@ with app.app_context():
             elif  data['with_artist_name'] and not data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with mood and artist
                 print("execute query with mood and artist")
-                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                sql = """SELECT s_artist, s_name, g_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name 
                             AND g_mood = ?
@@ -126,7 +126,7 @@ with app.app_context():
             elif data['with_artist_name'] and data['with_energy'] and not data['get_distinct_artists']:
                 # execute query with mood, energy and artist name
                 print("execute query with mood, energy and artist name")
-                sql = """SELECT s_artist, s_name, g_mood, s_energy
+                sql = """SELECT s_artist, s_name, g_name, g_mood, s_energy
                         FROM Songs, Genre
                         WHERE s_genre = g_name 
                             AND g_mood = ?
@@ -140,7 +140,7 @@ with app.app_context():
                 # select distinct artists based on facial expression
                 sql = """select distinct s_artist
                         from(
-                            SELECT s_artist, s_name, g_mood, s_energy
+                            SELECT s_artist, s_name, g_name, g_mood, s_energy
                             FROM Songs, Genre
                             WHERE s_genre = g_name AND
                             g_mood = ? 
@@ -160,13 +160,172 @@ with app.app_context():
 
     @app.route('/rateArtists', methods=['GET', 'POST'])
     def rateArtists():
-        
         return render_template('rateArtists.html')
+
 
     @app.route('/viewArtists', methods=['GET', 'POST'])
     def viewArtists():
         return render_template('viewArtists.html')
+    
+    
+    
+    @app.route('/viewArtists/poorlyReviewedArtists', methods=['GET', 'POST'])
+    def poorlyReviewedArtists():
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """SELECT rev_art_name, rev_art_score
+                    FROM ReviewArtist
+                    WHERE rev_art_score <= 4.0;"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql)
+            rows = c.fetchall()
 
+            
+        except Error as e:
+            print(e)
+        
+        return rows
+
+
+    @app.route('/viewArtists/getArtistReviewerCount', methods=['GET', 'POST'])
+    def getArtistReviewerCount():
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """select rev_art_name, count(rev_name) as count_rev
+                    from ReviewArtist
+                    group by rev_art_name
+                    order by count_rev desc;"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql)
+            rows = c.fetchall()
+
+            
+        except Error as e:
+            print(e)
+        
+        return rows
+
+
+    @app.route('/viewArtists/getRevScoreForAllArtists', methods=['GET', 'POST'])
+    def getRevScoreForAllArtists():
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """SELECT rev_art_name, rev_art_score
+                    FROM ReviewArtist;"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql)
+            rows = c.fetchall()
+
+            
+        except Error as e:
+            print(e)
+        
+        return rows
+
+
+
+    @app.route('/viewArtists/getRevScoreThreshold', methods=['GET', 'POST'])
+    def getRevScoreThreshold():
+        data = request.get_json()
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """SELECT rev_art_name, rev_art_score
+                    FROM ReviewArtist
+                    WHERE rev_art_score >= ?"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql, [data['threshold']])
+            rows = c.fetchall()
+
+            
+        except Error as e:
+            print(e)
+        
+        return rows
+
+
+    @app.route('/viewArtists/getTopArtists', methods=['GET', 'POST'])
+    def getTopArtists():
+        data = request.get_json()
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """select distinct art_name, rev_art_score
+                    from Artist, ReviewArtist
+                    WHERE
+                        art_name = rev_art_name
+                    order by rev_art_score DESC
+                    limit ?"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql, [data['limit']])
+            rows = c.fetchall()
+
+            
+        except Error as e:
+            print(e)
+        
+        return rows
+
+
+    @app.route('/viewArtists/getAvgScore/Country', methods=['GET', 'POST'])
+    def getAvgScoreByCountry():
+        # data = request.get_json()
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """select c_name, art_name, avg(rev_art_score) as avg_score
+                    from
+                        Artist, Country, ReviewArtist
+                    where 
+                        art_country = c_name
+                        AND rev_art_name = art_name
+                    group by art_name
+                    order by c_name;"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql)
+            rows = c.fetchall()
+            # print(rows)
+
+            
+        except Error as e:
+            print(e)
+        
+        return rows
+    
+    
+    @app.route('/viewArtists/getAvgScore/Continent', methods=['GET', 'POST'])
+    def getAvgScoreByContinent():
+        # data = request.get_json()
+        db = r'../tpch.sqlite'
+        rows = None
+        try:
+            sql = """select c_continent, art_name, avg(rev_art_score) as avg_score
+                    from
+                        Artist, Country, ReviewArtist
+                    where 
+                        art_country = c_name
+                        AND rev_art_name = art_name
+                    group by art_name
+                    order by c_continent;"""
+            conn = sqlite3.connect(db)
+            c = conn.cursor()
+            c.execute(sql)
+            rows = c.fetchall()
+
+            
+        except Error as e:
+            print(e)
+        # print(rows)
+        return rows
 
     if __name__ == "__main__":
         app.run(debug=True)

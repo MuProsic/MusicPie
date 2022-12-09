@@ -42,7 +42,31 @@
   }
   
 
-
+  .table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .table td, .table th {
+    border: 2px solid white;
+    padding: 8px;
+    margin: auto;
+    
+  }
+  
+  .table tr:nth-child(even){background-color: rgb(32, 131, 10);}
+  
+  /* #games_played tr:hover {background-color: #ddd;} */
+  
+  .table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0439aa;
+    color: white;
+    font: bold;
+  }
 
 
 /* #header{

@@ -1,0 +1,31 @@
+#artists-songs{
+    display: block;
+}
+
+#reviews-sales{
+    display: none;
+}
+
+#reviews-options{
+    display: none;
+}
+
+#review-score-options{
+    display: none;
+}
+
+#avg-score-options{
+    display: none;
+}
+
+#user-input{
+    display: none;
+}
+
+#submit-threshold{
+    display: none;
+}
+
+#submit-top-artists{
+    display: none;
+}

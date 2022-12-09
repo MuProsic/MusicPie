@@ -11,7 +11,7 @@ function init(){
     let viewArtists = document.getElementById('view-artists');
     // var rateSongs = document.getElementById("rate-songs");
     getRecs.style.display = 'block';
-    rateArtists.style.display = 'block';
+    // rateArtists.style.display = 'block';
     viewArtists.style.display = 'block';
     // rateSongs.style.display = 'block';
 

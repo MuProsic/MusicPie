@@ -75,12 +75,14 @@ where
     AND g_name like '%pop%'
     limit 5
 
--- Show a list of songs that is visible to see the where the song’s cultural background influenced the song based on the artist’s origin
+-- FIX ME: Need to be more clear about what this query is doing....Show a list of songs that is visible to see the where the song’s cultural background influenced the song based on the artist’s origin
 
-SELECT s_name, c_continent
+SELECT s_name, c_continent, art_country
 FROM Songs, Artist, Country
 WHERE s_name = art_name AND
-   art_country = c_continent;
+   art_country = c_name;
+
+select * from Artist
 
 -- Show me songs that are happy or suprise with the ability to dance to.
 
@@ -105,6 +107,8 @@ from(
 SELECT count(*) as PoorlyReviewedArtistCount
 FROM ReviewArtist
 WHERE rev_art_score < 30.0;
+
+select * from ReviewArtist
 
 -- What is the average score of artists per continent
 SELECT c_continent, avg(rev_art_score) as continent_score
