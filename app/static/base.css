@@ -1,0 +1,94 @@
+:root {
+    --bg-color: #000000;
+    --header-color: #c89f18;
+    --primary-text-color: #f7fafc;
+    --secondary-text-color: #61a6d4;
+    --tertiary-text-color: #000000;
+    --quaternary-text-color: #ce3c3c;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+    background-color: var(--bg-color);
+    color: var(--primary-text-color);
+    position: relative;
+    overflow-x: hidden;
+  }
+  
+  .content {
+    height: calc(100vh - 4rem);
+  }
+  
+  .navbar-container {
+    height: 4rem;
+    background-color: var(--header-color);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: var(--primary-text-color);
+  }
+  
+  .footer-container {
+    width: inherit;
+    position: absolute;
+    bottom: 0;
+    text-align: center;
+  }
+  
+
+  .table {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .table td, .table th {
+    border: 2px solid white;
+    padding: 8px;
+    margin: auto;
+    
+  }
+  
+  .table tr:nth-child(even){background-color: rgb(32, 131, 10);}
+  
+  /* #games_played tr:hover {background-color: #ddd;} */
+  
+  .table th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0439aa;
+    color: white;
+    font: bold;
+  }
+
+
+/* #header{
+    background-color: black;
+    color: white;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+    padding: 5px;
+    border: 3px solid white;
+    font-family: 'Courier New', Courier, monospace;
+
+}
+
+#template{
+    background-color: black;
+}
+
+#cam_on{
+    background-color: aqua;
+}
+
+#cam_off{
+    background-color: red;
+} */

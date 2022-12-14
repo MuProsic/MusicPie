@@ -1,0 +1,96 @@
+.button {
+    border: none;
+    background-color: var(--header-color);
+    color: var(--primary-text-color);
+    width: 30%;
+    height: 25%;
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    bottom: 0;
+    font-size: x-large;
+  }
+
+  .button:hover {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+  }
+
+#title{
+    text-align: center;
+}
+
+#query_addons{
+    display: none;
+}
+
+#warning_message{
+    display: none;
+    color: red;
+}
+
+
+#result {
+    font-family: Arial, Helvetica, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  #result td, #result th {
+    border: 2px solid white;
+    padding: 8px;
+    margin: auto;
+    
+  }
+  
+  #result tr:nth-child(even){background-color: rgb(32, 131, 10);}
+  
+  /* #games_played tr:hover {background-color: #ddd;} */
+  
+  #result th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #0439aa;
+    color: white;
+    font: bold;
+  }
+
+#query{
+    display: none;
+}
+
+
+#face_rec{
+    
+}
+
+
+
+#controls{
+    position: relative;
+    top: 0;
+    left: 0;
+}
+
+#canvas{
+    background-color: white;
+    display: none;
+}
+
+#camera{
+    background-color: blue;
+    display: none;
+}
+
+#cam_on{
+    display: block;
+}
+
+#cam_off{
+    display: none;
+}
+
+#snap{
+    display: none;
+}

@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% block title %}View Artists{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'viewArtists.css') }}">
+{% endblock %}
+
+
+{% block content %} 
+<body>
+    <div id="title">
+        <h1>View Artists/Songs</h1>
+        <p>In this page, you will be able to see the artists or songs based on your search query!!</p>
+    </div>
+    
+    <div id="artists-songs">
+        <p>Would you like to view artists?</p>
+        <select id="artists-songs-dropdown" onchange="artistsOrSongs()">
+            <option value="0"></option>
+            <option value="1">Artists</option>
+            <!-- <option value="2">Songs</option> -->
+        </select>
+    </div>
+
+    <div id="reviews-sales">
+        <p>What would you like to view from artists?</p>
+        <select id="reviews-sales-dropdown" onchange="reviewsOrSales()">
+            <option value="0"></option>
+            <option value="1">Reviews</option>
+            <!-- <option value="2">Sales</option> -->
+        </select>
+    </div>
+
+    <div id="reviews-options">
+        <p>What would you like to do with the artists' reviews?</p>
+        <select id="reviews-options-dropdown" onchange="reviewsOptions()">
+            <option value="0"></option>
+            <option value="1">Get review score of every artist</option>
+            <option value="2">Get poorly-reviewed artists</option>
+            <option value="3">Get average score of artists</option>
+            <option value="4">Get number of reviewers for every artist</option>
+        </select>
+    </div>
+
+    <div id="review-score-options">
+        <p>What would you like to do with the review score?</p>
+        <select id="review-score-options-dropdown" onchange="reviewScoreOptions()">
+            <option value="0"></option>
+            <option value="1">Get scores for all artists</option>
+            <option value="2">Set review score threshold</option>
+            <option value="3">Choose top X artists</option>
+        </select>
+        <input id="user-input" type="text" />
+        <button id="submit-threshold" onclick="getRevScoreThreshold()">Submit</button>
+        <button id="submit-top-artists" onclick="getTopArtists()">Submit</button>
+    </div>
+
+    <div id="avg-score-options">
+        <p>View average score of artists by</p>
+        <select id="avg-score-options-dropdown" onchange="avgScoreOptions()">
+            <option value="0"></option>
+            <option value="1">Country</option>
+            <option value="2">Continent</option>
+        </select>
+    </div>
+
+
+
+    <table class="table" id="result"></table>
+
+    <script src="../static/viewArtists.js"></script>
+</body>
+
+
+{% endblock content %}

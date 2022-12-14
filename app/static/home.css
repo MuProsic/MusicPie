@@ -1,0 +1,133 @@
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .login-container {
+    width: 50.5rem;
+    height: 32.5rem;
+    background-color: #07a507;
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-size: xx-large;
+  }
+  
+  .login-content {
+    width: 85%;
+    height: 85%;
+  }
+  
+  .login-title {
+    width: 100%;
+    margin: 0;
+    text-align: center;
+  }
+  
+  .login-form {
+    width: 100%;
+    height: 90%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.5rem;
+  }
+  
+  .login-form label,
+  .login-form input {
+    display: block;
+  }
+  
+  .login-form input {
+    height: 3rem;
+    padding: 0 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid #e1e3e4;
+    font-family: "Source Sans Pro", Arial, Helvetica, sans-serif;
+    font-size: 1rem;
+    background-color: #737171;
+    color: var(--primary-text-color);
+  }
+  
+  .login-form input:not(:last-child) {
+    margin-bottom: 2rem;
+  }
+  
+  .login-form input:focus {
+    outline-color: var(--accent-color);
+  }
+  
+  .login-form input[type="submit"] {
+    border: none;
+    background-color: var(--header-color);
+    color: var(--primary-text-color);
+  }
+  
+  .login-form input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+  }
+  
+
+.greeting-message-box{
+    background-color: rgb(46, 66, 248);
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: top;
+    align-items: center;
+    height: 100%;
+    width: auto;
+    text-align: center;
+    font-size: x-large;
+    /* padding: 11.3%; */
+}
+
+.button {
+    border: none;
+    background-color: var(--header-color);
+    color: var(--primary-text-color);
+    width: 80%;
+    height: 25%;
+    /* position: absolute; */
+    border: 3px solid #e1e3e4;
+    border-radius: 1rem;
+    /* border-color: var(--primary-text-color); */
+    bottom: 0;
+    /* top: 100%; */
+    font-size: x-large;
+    /* padding: 10%; */
+    /* outline-color: var(--primary-text-color); */
+    /* left: 0; */
+    /* gap: 20rem; */
+  }
+
+.button:hover {
+    cursor: pointer;
+    background-color: #ffffff;
+    color: black;
+  }
+
+#get-recs{
+    display: none;
+}
+
+#rate-artists{
+    display: none;
+}
+
+#rate-songs{
+    display: none;
+}
+
+#view-artists{
+  display: none;
+}
+
+  

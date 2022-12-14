@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{ url_for('static', filename = 'login.css') }}">
+{% endblock %}
+
+{% block content %} 
+    <div class="login-container">
+        <div class="login-content">
+            <h2 class="login-title">Welcome to MusicPie!</h2>
+            <div class="greeting-message-box">
+                <p id="message">This Web Application was developed for the purpose of recommending music for YOU, based on your emotions!</p>
+
+                <!-- <label for="username">Username</label>
+                <input type="text" name="username" id="username" autocomplete="off">
+
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password"> -->
+               
+                <button class="button" id="get-started-button" onclick="init()">Get Started</button>
+                <button class="button" id="get-recs" onclick="recs()">Get Recommendations</button>
+                <!-- <button class="button" id="rate-artists" onclick="rate()">Rate Artists/Songs</button> -->
+                <button class="button" id="view-artists" onclick="view()">View Artists</button>
+                <!-- <button class="button" id="rate-songs">Rate Songs</button> -->
+                
+                
+            </div>
+        </div>
+    </div>
+    <script src="../static/home.js"></script>
+{% endblock %} 
